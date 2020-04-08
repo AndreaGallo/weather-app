@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Fragment, useState} from 'react';
+import Spinner from './components/Spinner';
 import './App.css';
+import SearchForm from './components/SearchForm';
+import Weather from './components/Weather';
 
-function App() {
+function App() { 
+  const [history, setHistory] = useState(JSON.parse(localStorage.getItem('history')) || []);
+  const [currentWeatherResults, setCurrentWeatherResults] = useState({});
+  const [forecastResults, setForecastResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const renderResults = () => {
+    if(isSearching){
+      return <Spinner /> 
+    } else if (Object.entries(currentWeatherResults).length && forecastResults.length) {
+      return <>
+       <Weather {...currentWeatherResults}/>
+      </>
+    }
+    else {
+      return null
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+        <SearchForm 
+          setIsSearching={setIsSearching} 
+          setCurrentWeatherResults={setCurrentWeatherResults}
+          setForecastResults={setForecastResults}
+          history={history}
+          setHistory={setHistory} />
+          <div>
+            RESULTS
+            {renderResults()}
+          </div>
+          <div>
+            <p>LENGTH {history.length}</p>
+            <p>HISTORY {JSON.stringify(history)}</p>
+          </div>
+          
+          
+    </Fragment>
+    
   );
 }
 
 export default App;
+
