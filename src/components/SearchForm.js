@@ -5,13 +5,11 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-const SearchForm = ({setCurrentWeatherResults, setForecastResults,setIsSearching, history, setHistory}) => {
-    // State and setter for search term
-    const [searchCity, setSearchCity] = useState('Tucuman');
-    const [error, setError] = useState('');
-    const debouncedSearchCity = useDebounce(searchCity, 500);
-
+const SearchForm = ({city,setCity,setCurrentWeatherResults, setForecastResults,setIsSearching, history, setHistory}) => {
     
+    const [error, setError] = useState('');
+    const debouncedSearchCity = useDebounce(city, 500);
+
     useEffect(() => {
         if (debouncedSearchCity) {
             setIsSearching(true);
@@ -72,8 +70,8 @@ const SearchForm = ({setCurrentWeatherResults, setForecastResults,setIsSearching
                 type="text"
                 placeholder="Enter City"
                 maxLength="50"
-                value={searchCity}
-                onChange={(e) => setSearchCity(e.target.value)}
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
                 />
             <p>{error}</p>
         </div>
