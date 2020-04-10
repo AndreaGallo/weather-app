@@ -1,19 +1,31 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import useDebounce from '../useDebounce';
+
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-const SearchForm = ({city,setCity,setCurrentWeatherResults, setForecastResults,setIsSearching, history, setHistory}) => {
+const SearchForm = (props) => {
     
-    const [error, setError] = useState('');
-    const debouncedSearchCity = useDebounce(city, 500);
+    const {
+        city,
+        setCity,
+        error,
+        setError,
+        setCurrentWeatherResults, 
+        setForecastResults,
+        setIsSearching, 
+        history, 
+        setHistory
+    } = props;
+    const debouncedSearchCity = useDebounce(city, 1000);
 
     useEffect(() => {
         if (debouncedSearchCity) {
             setIsSearching(true);
-            setError('');
+            setError(false);
             
             let  cachedCity; 
 
@@ -52,34 +64,57 @@ const SearchForm = ({city,setCity,setCurrentWeatherResults, setForecastResults,s
                     setIsSearching(false)
                     setForecastResults([])
                     setCurrentWeatherResults({})
-                    setError(error.message);
+                    setError(true);
                 })
             }
         } else {
             setIsSearching(false)
             setForecastResults([])
             setCurrentWeatherResults({})
-            setError('')
+            setError(false)
         }
-    }, [debouncedSearchCity,setCurrentWeatherResults,setForecastResults,setIsSearching, history, setHistory])
-
+    }, [
+        debouncedSearchCity,
+        setCurrentWeatherResults,
+        setForecastResults,
+        setIsSearching, 
+        history, 
+        setHistory,
+        setError
+    ]);
 
     return (
-        <div>
+        <div className="control search-form has-icons-left">
             <input
+                className={`input is-rounded is-capitalized ${error? 'is-danger' : ''}`}
                 type="text"
-                placeholder="Enter City"
-                maxLength="50"
+                placeholder="Type city name to find weather info"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                />
-            <p>{error}</p>
+            />
+            <span className="icon is-small is-left">
+                <i className="fas fa-search"></i>
+            </span>
         </div>
     )
 }
 
 
 export default SearchForm;
+
+
+SearchForm.propTypes = {
+    city: PropTypes.string.isRequired,
+    setCity: PropTypes.func.isRequired,
+    error: PropTypes.bool.isRequired,
+    setError: PropTypes.func.isRequired,
+    setCurrentWeatherResults: PropTypes.func.isRequired, 
+    setForecastResults: PropTypes.func.isRequired,
+    setIsSearching: PropTypes.func.isRequired, 
+    history: PropTypes.array.isRequired, 
+    setHistory: PropTypes.func.isRequired
+} 
+
 
 function handleResponse(response) {
     if (response.ok) {
@@ -89,7 +124,8 @@ function handleResponse(response) {
     }
 }
 
-function getCurrentWeather (city) {
+
+function getCurrentWeather(city) {
     let uriEncodedCity = encodeURIComponent(city);
     const url = `${API_URL}/weather?q=${uriEncodedCity}&units=metric&appid=${API_KEY}`;
     
@@ -106,7 +142,6 @@ function getForecast({lat,lon}) {
     .then(response => handleResponse(response))
     .then(response => {
         let daily = [];
-        console.log(response.daily)
         response.daily.forEach(day => {
             daily.push(mapDataToForecast(day))
         });
@@ -119,13 +154,10 @@ function mapDataToWeather(data) {
     const mapped = {
       city: data.name,
       country: data.sys.country,
-      date: new Date(data.dt * 1000),
-      temperature: data.main.temp,
-      maxTemperature: data.main.temp_max,
-      minTemperature: data.main.temp_min,
-      feels_like: data.main.feels_like,
+      date: parseDate(data.dt),
+      temperature: Math.round(data.main.temp),
       humidity: data.main.humidity,
-      pressure: data.main.presure,
+      pressure: data.main.pressure,
       icon: data.weather[0].icon,
       main: data.weather[0].main,
       description: data.weather[0].description,
@@ -136,16 +168,25 @@ function mapDataToWeather(data) {
   }
 
 
-  function mapDataToForecast(data) {
+function mapDataToForecast(data) {
+    const date = parseDate(data.dt);
+    
+    const dateSplitted = date.split(',');
+    const day = dateSplitted[0];
+
     const mapped = {
-      date: new Date(data.dt * 1000),
-      tempMax: data.temp.max,
-      tempMin: data.temp.min,
-      humidity: data.humidity,
-      icon: data.weather[0].icon,
-      main: data.weather[0].main,
-      description: data.weather[0].description
+        day: day.slice(0, 3),
+        tempMax: Math.round(data.temp.max),
+        tempMin: Math.round(data.temp.min),
+        icon: data.weather[0].icon,
+        main: data.weather[0].main
     };
-  
+
     return mapped;
-  }
+}
+
+function parseDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}

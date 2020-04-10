@@ -1,45 +1,41 @@
-import React, {useState} from 'react'
-import CurrentWeather from './CurrentWeather'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-
-
-const Forecast = () => {
-    let [responseObj, setResponseObj] = useState({})
-    let [city, setCity] = useState('');
-    
-    let [error, setError] = useState(false);
-    let [loading, setLoading] = useState(false);
-
-    const getForecast = (e) => {
-        e.preventDefault();
-
-        if(city.length === '') {
-            return setError(true);
-        }
-
-        setError(false);
-        setResponseObj({});
-        setLoading(true);
-
-        console.log('key',process.env)
-        
-        .catch(error => {
-            setError(true);
-            setLoading(true);
-            console.log(error.message);
-        });
-    }
-
+const Forecast = ({forecast}) => {
     return (
-        <div>
-            <h2>Find Current Weather data</h2>
-            
-           <CurrentWeather 
-            data={responseObj}
-            error={error}
-            loading={loading}/>
+        <div className="columns">
+            {
+                forecast.map((data,index) =>  {
+                    const {day, tempMax, tempMin, icon, main} = data;
+                    return (
+                        <div className="column" key={index}>
+                            <div className="card has-background-white-ter">
+                                <div className="card-content is-capitalized">
+                                    <div className="media">
+                                        <div className="media-content has-text-centered">
+                                            <p className="title is-6">{day}</p>
+                                            <figure className="forecast-image image is-inline-block is-64x64 has-background-grey-lighter">
+                                                <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt={main}/>
+                                            </figure>
+                                            <p className="subtitle is-7">{tempMax}&deg;C / {tempMin}&deg;C</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })
+            }
         </div>
     )
+}   
+
+export default Forecast;
+
+Forecast.propTypes = {
+    forecast:  PropTypes.array
 }
 
-export default Forecast
+Forecast.defaultProps = {
+    forecast: []
+}

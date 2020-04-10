@@ -1,27 +1,35 @@
-import React, { Fragment, useState} from 'react';
+import React, {useState} from 'react';
 import Spinner from './components/Spinner';
-import './App.css';
 import SearchForm from './components/SearchForm';
 import Weather from './components/Weather';
-import Map from './components/Map'
+import NotFound from './components/NotFound';
+import './App.css';
+import 'bulma/css/bulma.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 function App() { 
-  const [history, setHistory] = useState(JSON.parse(localStorage.getItem('history')) || []);
   const [city, setCity] = useState('Tucuman');
   const [currentWeatherResults, setCurrentWeatherResults] = useState({});
   const [forecastResults, setForecastResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-
+  const [error, setError] = useState(false);
+  const [history, setHistory] = useState(JSON.parse(localStorage.getItem('history')) || []);
+ 
 
   const renderResults = () => {
     if(isSearching){
       return <Spinner /> 
     } else if (Object.entries(currentWeatherResults).length) {
-      return <>
-       <Weather {...currentWeatherResults}/>
-       <Map coord={currentWeatherResults.coord}/>
-       {JSON.stringify(forecastResults)}
-      </>
+      return (
+        <Weather
+          history={history}
+          setHistory={setHistory}
+          city={city}
+          setCity={setCity} 
+          weather={currentWeatherResults}
+          forecast={forecastResults}
+        />
+      )
     }
     else {
       return null
@@ -29,25 +37,28 @@ function App() {
   }
 
   return (
-    <Fragment>
-        <SearchForm 
-          city={city}
-          setCity={setCity}
-          setIsSearching={setIsSearching} 
-          setCurrentWeatherResults={setCurrentWeatherResults}
-          setForecastResults={setForecastResults}
-          history={history}
-          setHistory={setHistory} />
-          <div>
-            RESULTS
-            {renderResults()}
+    <div className="container app">
+        <h1 className="app-title is-size-6 is-uppercase has-text-centered-touch">
+            React Weather App
+        </h1>
+        <div className="columns is-centered">
+          <div className="column is-half">
+            <SearchForm 
+              city={city}
+              setCity={setCity}
+              error={error}
+              setError={setError}
+              setIsSearching={setIsSearching} 
+              setCurrentWeatherResults={setCurrentWeatherResults}
+              setForecastResults={setForecastResults}
+              history={history}
+              setHistory={setHistory} 
+            />
+            {error && <NotFound />}
           </div>
-          <div style={{wordWrap: "break-word"}}>
-            <p>LENGTH {history.length}</p>
-            <p>HISTORY {JSON.stringify(history)}</p>
-          </div>
-    </Fragment>
-    
+        </div>      
+        {renderResults()}
+    </div>
   );
 }
 

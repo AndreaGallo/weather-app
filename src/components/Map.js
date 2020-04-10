@@ -1,16 +1,16 @@
 import React from 'react'
 import ReactMapGL from 'react-map-gl'
+import PropTypes from 'prop-types'
 
-function Map({coord}) {
+const Map = ({coord}) => {
     const viewport = {
         latitude: coord.lat,
         longitude: coord.lon,
-        width:"100vw",
-        height: "100vh",
-        zoom:10
+        width:"100%",
+        height: "30vw",
+        zoom:12
     };
 
-    console.log(viewport);
     return (
         <div>
             <ReactMapGL
@@ -23,3 +23,17 @@ function Map({coord}) {
 }
 
 export default Map;
+
+Map.propTypes = {
+    coord: PropTypes.shape({
+        lat: PropTypes.number,
+        lon: PropTypes.number
+    })
+}
+
+Map.defaultProps = {
+    coord: {
+        lat: 0,
+        lon: 0
+    }
+}

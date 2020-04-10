@@ -1,39 +1,54 @@
-.App {
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.app{
+  padding: 0 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.app-title{
+  height: 64px;
+  margin: 0;
+  padding: 20px 0;
 }
 
-main {
-  flex-grow: 1;
-  text-align: center;
-  padding: 25px;
+.list-item.is-deleted {
+  position: relative;
+  padding-right: 2.5em;
 }
 
-footer {
-  padding: 2px;
-  min-height: 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #EEEEEE;
-  font-size: small;
-  text-align: center;
+.list-item.is-deleted .icon{
+  height: 2.5em;
+  color: #adb5bd;
+  position: absolute;
+  top: 0;
+  width: 2.5em;
+  z-index: 4;
+  right: 0;
 }
 
-header {
-  padding: 25px;
+.list-item.is-deleted span.item-name{
+  display:inline-block;
+  width: 100%;
+  height: 100%;
 }
+
+.list-item.is-deleted:hover span.item-name{
+  color: #3273dc;
+}
+
+.list-item.is-deleted.is-active:hover span.item-name, 
+.list-item.is-deleted.is-active:hover span.item-name:hover{
+  color: #fff;
+}
+
+.list-item.is-deleted:hover span.item-name:hover,
+.list-item.is-deleted .icon:not(.disabled):hover{
+  color: #363636;
+}
+
+.forecast-image, .search-form{
+  margin-bottom: 1.5rem;
+}
+
+.list-title{
+  margin-bottom: 1rem;
+}
+
 

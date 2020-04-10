@@ -1,11 +1,8 @@
 import React from "react";
 
-
 export default function Spinner() {
 
     return (
-        <div>
-            Loading...
-        </div>
+        <progress className="progress is-info" max="100">Loading...</progress>
     );
 }
