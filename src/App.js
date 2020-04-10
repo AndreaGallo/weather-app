@@ -8,7 +8,7 @@ import 'bulma/css/bulma.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 function App() { 
-  const [city, setCity] = useState('Tucuman');
+  const [city, setCity] = useState('');
   const [currentWeatherResults, setCurrentWeatherResults] = useState({});
   const [forecastResults, setForecastResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
