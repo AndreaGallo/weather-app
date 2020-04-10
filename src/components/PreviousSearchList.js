@@ -9,6 +9,7 @@ const PreviousSearchList = ({history, setHistory, city, setCity}) => {
             let searchedCities = [...history];
             searchedCities.splice(index, 1);
             setHistory(searchedCities);
+         //   localStorage.setItem('history', JSON.stringify(searchedCities));
         }
     }
 
