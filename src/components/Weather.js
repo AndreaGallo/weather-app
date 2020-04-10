@@ -5,7 +5,7 @@ import CurrentWeather from './CurrentWeather';
 import Forecast from './Forecast';
 import PreviousSearchList from './PreviousSearchList';
 
-const WeatherCard = ({weather, forecast, history, setHistory, city, setCity}) => {
+const Weather = ({weather, forecast, history, setHistory, city, setCity}) => {
 
     const { coord } = weather;
 
@@ -33,9 +33,9 @@ const WeatherCard = ({weather, forecast, history, setHistory, city, setCity}) =>
     );
 };
 
-export default WeatherCard;
+export default Weather;
 
-WeatherCard.propTypes = {
+Weather.propTypes = {
     weather: PropTypes.object.isRequired, 
     forecast: PropTypes.array.isRequired,
     history: PropTypes.array.isRequired, 

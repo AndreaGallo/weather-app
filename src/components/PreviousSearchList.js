@@ -17,35 +17,42 @@ const PreviousSearchList = ({history, setHistory, city, setCity}) => {
             {   //The city which weather is displayed will not be deleted. This let us to access its weather info
                 // next time we enter to the app
                 history.map(({city},index) =>  {
-                    let isCityActive = city && isActive(city);
-                    return (
-                    <a href="/#" 
-                    key={index} 
-                    disabled={isCityActive}
-                    className={`list-item is-capitalized ${isCityActive? 'is-active disabled' : 'is-deleted'}`}
-                    >
-                        <span 
-                            title={`${!isCityActive? 'Click to view weather info' : ''}`}
-                            className="item-name is-capitalized"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setCity(city);
-                            }}
-                        >
-                            {city}
-                        </span>
-                        <span 
-                            className="icon" 
-                            title={`${!isCityActive? 'Delete' : ''}`}
-                            onClick={() => {
-                                if (!isCityActive) {
-                                    deleteCity(index)
-                                }
-                            }}
-                        >
-                            <i className="fas fa-trash-alt"></i>
-                        </span>
-                    </a>)   
+                    if(city) {
+                        let isCityActive = city && isActive(city);
+                        return (
+                            <a 
+                                href="/#" 
+                                key={index} 
+                                disabled={isCityActive}
+                                className={`list-item is-capitalized ${isCityActive? 'is-active disabled' : 'is-deleted'}`}
+                            >
+                                <span 
+                                    title={`${!isCityActive? 'Click to view weather info' : ''}`}
+                                    className="item-name is-capitalized"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setCity(city);
+                                    }}
+                                >
+                                    {city}
+                                </span>
+                                <span 
+                                    className="icon" 
+                                    title={`${!isCityActive? 'Delete' : ''}`}
+                                    onClick={() => {
+                                        if (!isCityActive) {
+                                            deleteCity(index)
+                                        }
+                                    }}
+                                >
+                                    <i className="fas fa-trash-alt"></i>
+                                </span>
+                            </a>
+                        ) 
+                    } else {
+                        return null
+                    }
+                      
                 })
             }
         </div>
