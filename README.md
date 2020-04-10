@@ -6,13 +6,13 @@ https://github.com/AndreaGallo/weather-app/
 * [Instructions](#Instructions)
 
 ## Description
-This is a simple react weather app using OpenWeatherMap API.
+This is a simple react weather app using OpenWeatherMap API and Mapbox API.
 
 ## Instructions
 
-- Sign up over at [openweathermap.org](https://openweathermap.org/appid) to get an API key.
+- Sign up over at [openweathermap.org](https://openweathermap.org/appid) to get an API Key.
 
-- Sign up over at [mapbox.com])(https://account.mapbox.com/auth/signup/) to get an API Access Token
+- Sign up over at [mapbox.com](https://account.mapbox.com/auth/signup/) to get an API Access Token
 
 - Clone this repository.
 ```bash
@@ -23,7 +23,7 @@ $ git clone https://github.com/AndreaGallo/weather-app.git
 
 ```sh
 REACT_APP_API_URL = 'https://api.openweathermap.org/data/2.5/'
-REACT_APP_API_KEY = The API key you obtained from openweathermap.org
+REACT_APP_API_KEY = The API Key you obtained from openweathermap.org
 REACT_APP_MAPBOX_TOKEN = The API Access Token you obtained from mapbox.com
 ```
 
