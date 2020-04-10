@@ -16,7 +16,7 @@ const Map = ({coord}) => {
             <ReactMapGL
                 {...viewport}
                 mapStyle="mapbox://styles/andreagallo/ck8s5hvgi0px01inx3rbgct1g"
-                mapboxApiAccessToken={process.env.REACT_APP_MAPGL_KEY}
+                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
             />
         </div>
     )
