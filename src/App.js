@@ -39,7 +39,7 @@ function App() {
   return (
     <div className="container app">
         <h1 className="app-title is-size-6 is-uppercase has-text-centered-touch">
-            React Weather App
+            Weather App
         </h1>
         <div className="columns is-centered">
           <div className="column is-half">

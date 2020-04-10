@@ -14,14 +14,15 @@ const PreviousSearchList = ({history, setHistory, city, setCity}) => {
 
     return (
         <div className="list is-hoverable">
-            {
+            {   //The city which weather is displayed will not be deleted. This let us to access its weather info
+                // next time we enter to the app
                 history.map(({city},index) =>  {
-                    let isCityActive = isActive(city);
+                    let isCityActive = city && isActive(city);
                     return (
                     <a href="/#" 
                     key={index} 
                     disabled={isCityActive}
-                    className={`list-item is-deleted is-capitalized ${isCityActive? 'is-active' : ''}`}
+                    className={`list-item is-capitalized ${isCityActive? 'is-active disabled' : 'is-deleted'}`}
                     >
                         <span 
                             title={`${!isCityActive? 'Click to view weather info' : ''}`}
@@ -34,7 +35,7 @@ const PreviousSearchList = ({history, setHistory, city, setCity}) => {
                             {city}
                         </span>
                         <span 
-                            className={`icon ${isCityActive? 'disabled' : ''}`} 
+                            className="icon" 
                             title={`${!isCityActive? 'Delete' : ''}`}
                             onClick={() => {
                                 if (!isCityActive) {
@@ -48,7 +49,7 @@ const PreviousSearchList = ({history, setHistory, city, setCity}) => {
                 })
             }
         </div>
-    )
+    )    
 }
 
 export default PreviousSearchList;

@@ -20,7 +20,8 @@ const SearchForm = (props) => {
         history, 
         setHistory
     } = props;
-    const debouncedSearchCity = useDebounce(city, 1000);
+    //We us debounce to avoid making an API call for every letter we type
+    const debouncedSearchCity = useDebounce(city, 500);
 
     useEffect(() => {
         if (debouncedSearchCity) {
@@ -28,11 +29,15 @@ const SearchForm = (props) => {
             setError(false);
             
             let  cachedCity; 
-
+            
+            // We verify if city is in local storage
             if (history.length) {
-                cachedCity = history.find(item => item.city.toUpperCase() === debouncedSearchCity.toUpperCase());
+                cachedCity = history.find(item => item.city && item.city.toUpperCase() === debouncedSearchCity.toUpperCase());
             }
             
+            // If city is in the local storage, we get its currentWeather and forecast to display. If it is not in
+            // the local storage, we make a call to the api, we get the currentWeather and forecast and we store them
+            // in the local storage
             if (cachedCity) {
                 let {current, forecast} = cachedCity;
                 setIsSearching(false);

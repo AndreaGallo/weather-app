@@ -1,3 +1,7 @@
+
+
+
+
 .app{
   padding: 0 20px;
 }
@@ -8,12 +12,20 @@
   padding: 20px 0;
 }
 
-.list-item.is-deleted {
+.list-item {
   position: relative;
   padding-right: 2.5em;
 }
 
-.list-item.is-deleted .icon{
+.list-item.disabled{
+  pointer-events:none;
+}
+
+.list-item.is-deleted{
+  pointer-events: auto;
+}
+
+.list-item .icon{
   height: 2.5em;
   color: #adb5bd;
   position: absolute;
@@ -23,23 +35,23 @@
   right: 0;
 }
 
-.list-item.is-deleted span.item-name{
+.list-item span.item-name{
   display:inline-block;
   width: 100%;
   height: 100%;
 }
 
-.list-item.is-deleted:hover span.item-name{
+.list-item:hover span.item-name{
   color: #3273dc;
 }
 
-.list-item.is-deleted.is-active:hover span.item-name, 
-.list-item.is-deleted.is-active:hover span.item-name:hover{
+.list-item.is-active:hover span.item-name, 
+.list-item.is-active:hover span.item-name:hover{
   color: #fff;
 }
 
-.list-item.is-deleted:hover span.item-name:hover,
-.list-item.is-deleted .icon:not(.disabled):hover{
+.list-item:hover span.item-name:hover,
+.list-item .icon:not(.disabled):hover{
   color: #363636;
 }
 
